@@ -1,4 +1,4 @@
-Latest version of Gimp compiled from git master.
+Latest development version of Gimp compiled from [gimp.org](http://download.gimp.org/mirror/pub/gimp/v2.9/).
 
 Based on Ubuntu Vivid
 
@@ -13,8 +13,3 @@ Remote SSH into docker host, low isolation
 
 You can also install sshd onto the image and ssh directly into it.
 
-## Maintenance
-
-To automate the image building process with reasonable throttle enforcement, there is a [web trigger](http://jarfil.net/dockerfiles.auto/autobuild_gimp-git.php) available.
-
-![graph](https://jarfil.github.io/dockerfiles/data/gimp-git/docker%20automate%2003.png)

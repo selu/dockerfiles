@@ -1,5 +1,5 @@
 FROM ubuntu:wily
-MAINTAINER Jaroslaw Filiochowski <jarfil@gmail.com>
+MAINTAINER Szabolcs Seláf <selu@selu.org>
 
 # compile
 ADD make_gimp.sh /root/make_gimp.sh

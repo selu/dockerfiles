@@ -82,14 +82,24 @@ export PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig:$PREFIX/share/pkgconfig
 
 # get sources
 
-export SRCDIR=/usr/src/gimp-git
+export SRCDIR=/usr/src/gimp-devel
 mkdir -p $SRCDIR
 
 cd $SRCDIR
-git clone git://git.gnome.org/babl || exit
-git clone git://git.gnome.org/gegl || exit
-git clone https://github.com/mypaint/libmypaint.git || exit
-git clone git://git.gnome.org/gimp || exit
+
+wget http://download.gimp.org/mirror/pub/gimp/v2.9/gimp-2.9.2.tar.bz2 || exit
+mkdir gimp || exit
+tar xjf gimp-2.9.2.tar.bz2 -C gimp --strip-components=1 || exit
+
+wget http://download.gimp.org/pub/gegl/0.3/gegl-0.3.4.tar.bz2 || exit
+mkdir gegl || exit
+tar xjf gegl-0.3.4.tar.bz2 -C gegl --strip-components=1 || exit
+
+wget http://download.gimp.org/pub/babl/0.1/babl-0.1.14.tar.bz2 || exit
+mkdir babl || exit
+tar xjf babl-0.1.14.tar.bz2 -C babl --strip-components=1 || exit
+
+#git clone https://github.com/mypaint/libmypaint.git || exit
 
 # compile and install
 
@@ -107,10 +117,10 @@ make install || exit
 
 ldconfig || exit
 
-cd $SRCDIR/libmypaint
-scons install enable_gegl=true
+#cd $SRCDIR/libmypaint
+#scons install enable_gegl=true
 
-ldconfig || exit
+#ldconfig || exit
 
 cd $SRCDIR/gimp
 ./autogen.sh --prefix=$PREFIX --disable-gtk-doc || exit
@@ -123,6 +133,7 @@ ldconfig || exit
 
 ln -s `ls /usr/local/bin/gimp-?.* | head -n2` /usr/local/bin/gimp || exit
 
+exit
 # dev cleanup
 
 rm -rf $SRCDIR/babl
