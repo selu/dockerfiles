@@ -2,7 +2,7 @@
 
 # dev setup
 
-export DEBIAN_FRONTEND=noninteractive 
+export DEBIAN_FRONTEND=noninteractive
 
 apt-get -y update || exit
 apt-get -y upgrade || exit
@@ -12,6 +12,7 @@ apt-get install -y \
 	autoconf \
 	automake \
 	build-essential \
+	dbus-x11 \
 	gettext \
 	git-core \
 	gtk-doc-tools \
@@ -63,6 +64,7 @@ apt-get install -y \
 	python-gtk2-dev \
 	ruby \
 	valac \
+	wget \
 	xsltproc \
 	--no-install-recommends || exit
 
@@ -87,15 +89,15 @@ mkdir -p $SRCDIR
 
 cd $SRCDIR
 
-wget http://download.gimp.org/mirror/pub/gimp/v2.9/gimp-2.9.2.tar.bz2 || exit
+wget -q http://download.gimp.org/mirror/pub/gimp/v2.9/gimp-2.9.2.tar.bz2 || exit
 mkdir gimp || exit
 tar xjf gimp-2.9.2.tar.bz2 -C gimp --strip-components=1 || exit
 
-wget http://download.gimp.org/pub/gegl/0.3/gegl-0.3.4.tar.bz2 || exit
+wget -q http://download.gimp.org/pub/gegl/0.3/gegl-0.3.4.tar.bz2 || exit
 mkdir gegl || exit
 tar xjf gegl-0.3.4.tar.bz2 -C gegl --strip-components=1 || exit
 
-wget http://download.gimp.org/pub/babl/0.1/babl-0.1.14.tar.bz2 || exit
+wget -q http://download.gimp.org/pub/babl/0.1/babl-0.1.14.tar.bz2 || exit
 mkdir babl || exit
 tar xjf babl-0.1.14.tar.bz2 -C babl --strip-components=1 || exit
 
@@ -123,7 +125,7 @@ ldconfig || exit
 #ldconfig || exit
 
 cd $SRCDIR/gimp
-./autogen.sh --prefix=$PREFIX --disable-gtk-doc || exit
+./configure --prefix=$PREFIX --disable-gtk-doc || exit
 make -j4 || exit
 make install || exit
 
@@ -133,12 +135,9 @@ ldconfig || exit
 
 ln -s `ls /usr/local/bin/gimp-?.* | head -n2` /usr/local/bin/gimp || exit
 
-exit
 # dev cleanup
 
-rm -rf $SRCDIR/babl
-rm -rf $SRCDIR/gegl
-rm -rf $SRCDIR/gimp
+rm -rf $SRCDIR/*
 
 dpkg -l | grep -- -dev | cut -d " " -f 3 | cut -d ":" -f 1 | sort -n | uniq | xargs apt-get -y purge
 
@@ -146,9 +145,9 @@ apt-get purge \
 	autoconf \
 	automake \
 	build-essential \
+	wget \
 	git-core
 
 apt-get -y autoremove
 apt-get clean
 rm -rf /var/lib/apt/lists/*
-
