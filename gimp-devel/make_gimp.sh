@@ -5,6 +5,7 @@
 export DEBIAN_FRONTEND=noninteractive
 
 apt-get -y update || exit
+apt-get install -y apt-utils || exit
 apt-get -y upgrade || exit
 apt-get -y autoremove || exit
 
@@ -34,8 +35,6 @@ apt-get install -y \
 	libgtk2.0-0 \
 	libgtk2.0-bin \
 	libgtk2.0-dev \
-	libjasper1 \
-	libjasper-dev \
 	libjson-glib-1.0-0 \
 	libjson-glib-dev \
 	liblcms2-2 \
@@ -70,7 +69,7 @@ apt-get install -y \
 
 apt-get install -y \
 	libjson-c-dev \
-	libjson-c2 \
+	libjson-c3 \
 	scons \
 	--no-install-recommends || exit
 

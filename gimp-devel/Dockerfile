@@ -1,4 +1,4 @@
-FROM ubuntu:wily
+FROM ubuntu:artful
 MAINTAINER Szabolcs Seláf <selu@selu.org>
 
 # compile
